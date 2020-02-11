@@ -24,6 +24,7 @@ public class Rocket extends SmoothMover
     public Rocket()
     {
         reloadDelayCount = 5;
+        addToVelocity(new Vector(180, .1));
     }
 
     /**
@@ -34,6 +35,7 @@ public class Rocket extends SmoothMover
     {
         checkKeys();
         reloadDelayCount++;
+        move();
     }
     
     /**
@@ -45,9 +47,35 @@ public class Rocket extends SmoothMover
         {
             fire();
         }
+        if (Greenfoot.isKeyDown("left"))
+        {
+            turn (-5);
+        }
+        if (Greenfoot.isKeyDown("right"))
+        {
+            turn (5);
+        }
+        if (Greenfoot.isKeyDown("up"))
+        {
+          move(2);
+        }
+        ignite(Greenfoot.isKeyDown("up"));
     }
     
-    /**
+    public void ignite (boolean boosterOn)
+     {
+        if (boosterOn)
+        { 
+            setImage(rocketWithThrust);
+        }
+        else
+        {
+           setImage(rocket);
+        }
+     }
+        
+
+     /**
      * Fire a bullet if the gun is ready.
      */
     private void fire() 
@@ -60,5 +88,4 @@ public class Rocket extends SmoothMover
             reloadDelayCount = 0;
         }
     }
-    
 }
