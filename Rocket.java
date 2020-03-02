@@ -13,7 +13,8 @@ public class Rocket extends SmoothMover
 {
     private static final int gunReloadTime = 5;         // The minimum delay between firing the gun.
 
-    private int reloadDelayCount;               // How long ago we fired the gun the last time.
+    private int reloadDelayCount; 
+    private Vector acceleration;// How long ago we fired the gun the last time.
     
     private GreenfootImage rocket = new GreenfootImage("rocket.png");    
     private GreenfootImage rocketWithThrust = new GreenfootImage("rocketWithThrust.png");
@@ -25,6 +26,8 @@ public class Rocket extends SmoothMover
     {
         reloadDelayCount = 5;
         addToVelocity(new Vector(180, .1));
+        acceleration = (new Vector(0, 0.3));
+        addToVelocity(new Vector(13, 0.3));
     }
 
     /**
@@ -58,7 +61,7 @@ public class Rocket extends SmoothMover
         }
         if (Greenfoot.isKeyDown("up"))
         {
-          move(2);
+          move(1);
         }
         ignite(Greenfoot.isKeyDown("up"));
     }
@@ -68,6 +71,8 @@ public class Rocket extends SmoothMover
         if (boosterOn)
         { 
             setImage(rocketWithThrust);
+            acceleration.setDirection(getRotation());
+            addToVelocity(acceleration);
         }
         else
         {
@@ -94,11 +99,10 @@ public class Rocket extends SmoothMover
     {
         if ( getOneIntersectingObject(Asteroid.class) != null)
         {
-            World world = getWorld();
-            Explosion explosion = new Explosion();
-            world.addObject(explosion, getX() , getY());
-            world.removeObject(this);
-            Greenfoot.stop();
+            Space space = (Space) getWorld();
+            space.addObject(new Explosion(), getX() , getY());
+            space.removeObject(this);
+            space.gameOver();
         }
     }
 }

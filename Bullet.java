@@ -55,6 +55,7 @@ public class Bullet extends SmoothMover
         Asteroid asteroid = (Asteroid) getOneIntersectingObject(Asteroid.class);
         if (asteroid != null)
         {
+            ((Space) getWorld()).updateScore(5);
             getWorld().removeObject(this);
             asteroid.hit(damage);
         }

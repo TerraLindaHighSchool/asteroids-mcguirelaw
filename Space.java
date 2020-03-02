@@ -54,7 +54,10 @@ public class Space extends World
      */
     public void gameOver() 
     {
-        // TODO: show the score board here. Currently missing.
+        int x = getWidth() / 2;
+        int y = getHeight() / 2;
+        int currentScore = scoreCounter.getValue();
+        addObject(new ScoreBoard(currentScore),x ,y);
     }
 
     private void paintStars(int count)
@@ -65,9 +68,14 @@ public class Space extends World
             int x = Greenfoot.getRandomNumber(getWidth());
             int y = Greenfoot.getRandomNumber(getHeight());
             int d = Greenfoot.getRandomNumber(155);
-            Color random = new Color (d+75, d, d);
+            Color random = new Color (d, d, d);
             background.setColor(random);
             background.fillOval(x, y, 2, 2);
         }
+    }
+    
+    public void updateScore(int addToScore)
+    {
+        scoreCounter.add(addToScore);
     }
 }
